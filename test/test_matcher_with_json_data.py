@@ -11,7 +11,7 @@ class TestMatcherWithJsonData(unittest.TestCase):
 
         data2 = {
             'Name': 'WALLMART STORES INC USA',
-            'Address': '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA'
+            'Address': '601 N WALTON BLVD BENTONVILLE AR 72716 USA'
         }
 
         self.assertGreaterEqual(match(data1, data2), 0.9)

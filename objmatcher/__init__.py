@@ -1,32 +1,49 @@
 from __future__ import print_function
 from math import*
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 import numpy as np
 
 
 def match(obj1, obj2):
-    vector = OrderedDict()
+    word_lists = OrderedDict()
     similarity_average = []
 
     for key, value in obj1.iteritems():
-        vector.update({key: str.split(value)})
+        word_lists.update({key: str.split(value)})
 
     for key, value in obj2.iteritems():
-        vector.update({key: vector[key] + list(set(str.split(value)) - set(vector[key]))})
+        word_lists.update({key: word_lists[key] + list(set(str.split(value)) - set(word_lists[key]))})
 
-    for key in vector.keys():
-        vector.update({key + "Vector": list(np.zeros(len(vector[key]), dtype=np.int))})
-        print(obj1[key])
+    print(word_lists)
 
-    print(vector)
+    for _ in word_lists:
+        vector1 = list(np.zeros(len(word_lists[_]), dtype=np.int))
+        vector2 = list(np.zeros(len(word_lists[_]), dtype=np.int))
+
+        print(word_lists[_])
+        print(str.split(obj1[_]))
+        print(str.split(obj2[_]))
+
+        for x in range(len(word_lists[_])):
+            if word_lists[_][x] in str.split(obj1[_]):
+                vector1[x] = 1
+            if word_lists[_][x] in str.split(obj2[_]):
+                if vector1[x] == 1:
+                    vector1[x] = 2
+                    vector2[x] = 2
+                else:
+                    vector2[x] = 1
+
+        similarity_average.append(get_similarity(vector1, vector2))
+
+    return np.mean(similarity_average)
 
 
 def get_similarity(x, y):
     numerator = sum(a*b for a,b in zip(x,y))
-    denominator = round(sqrt(sum([a*a for a in x])), 3) * round(sqrt(sum([a*a for a in y])), 3)
-
-    return numerator/float(denominator)
-
+    denominator = square_rooted(x)*square_rooted(y)
+    return round(numerator/float(denominator),3)
 
 
-# print(numpy.mean([cosine_similarity([2, 2, 2, 3, 3, 2, 2], [2, 2, 2, 2, 2, 2, 2]), 1]))
+def square_rooted(x):
+    return round(sqrt(sum([a*a for a in x])),3)
