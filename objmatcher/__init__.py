@@ -36,7 +36,7 @@ def match(obj1, obj2):
 
         similarity_average.append(get_similarity(vector1, vector2))
 
-    return np.mean(similarity_average)
+    return round(np.mean(similarity_average), 3)
 
 
 def get_similarity(x, y):
@@ -47,3 +47,6 @@ def get_similarity(x, y):
 
 def square_rooted(x):
     return round(sqrt(sum([a*a for a in x])),3)
+
+
+
