@@ -7,20 +7,23 @@ class TestMatcherWithJsonData(unittest.TestCase):
         data1 = {
             'Name': [
                 'SAMS CLUB WALMART STORES INC',
-                'WALMART STORES INC WALMART STORE',
-                'WALMART STORES S A'
+                'WALMART STORES INC WALMART STORE INC INC',
+                'WALMART STORES S A',
+                'WAL MART STORES INC USA',
+                'WAL MART STORES INC 601 N'
             ],
             'Address': [
-                '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA'
+                '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA',
+                'WALTON BLVD, BENTONVILLE, AR 72716, USA'
             ]
         }
 
         data2 = {
             'Name': [
-                'WALMART STORES INC XXX'
+                'WALMART STORES INC'
             ],
             'Address': [
-                '601 NORTH WALTON BLVD BENTONVILLE AR 72712 USA'
+                '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA'
             ]
         }
 

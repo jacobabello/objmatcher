@@ -1,6 +1,6 @@
 from __future__ import print_function
 from math import*
-from collections import OrderedDict, Counter
+from collections import OrderedDict
 import numpy as np
 
 
@@ -17,13 +17,11 @@ def match(obj1, obj2):
                 word_lists[key][index] += list(set(str.split(value[x])) - set(word_lists[key][index]))
 
     for key in word_lists:
+        top_similarity_score = 0.0
+
         for x in range(len(word_lists[key])):
             vector1 = list(np.zeros(len(word_lists[key][x]), dtype=np.int))
             vector2 = list(np.zeros(len(word_lists[key][x]), dtype=np.int))
-
-            print(word_lists[key][x])
-            print(obj1[key][x])
-            print(obj2[key][0])
 
             for index in range(len(word_lists[key][x])):
                 if word_lists[key][x][index] in str.split(obj1[key][x]):
@@ -35,11 +33,13 @@ def match(obj1, obj2):
                     else:
                         vector2[index] = 1
 
+            similarity = get_similarity(vector1, vector2)
+            if similarity > top_similarity_score:
+                top_similarity_score = similarity
 
-            print(vector1)
-            print(vector2)
-            print(get_similarity(vector1, vector2))
-            print('---')
+        similarity_average_list.append(top_similarity_score)
+
+    return round(np.mean(similarity_average_list), 3)
 
 
 def get_similarity(x, y):
