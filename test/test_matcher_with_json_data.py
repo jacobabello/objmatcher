@@ -51,3 +51,23 @@ class TestMatcherWithJsonData(unittest.TestCase):
 
         self.assertEqual(match(data1, data2), 1.0)
 
+    def test_no_similarity(self):
+        data1 = {
+            'Name': [
+                'AQUACHILE INC'
+            ],
+            'Address': [
+                '5200 BLUE LAGOON DRIVE, MIAMI, FL 33126, USA'
+            ]
+        }
+
+        data2 = {
+            'Name': [
+                'SEAHORSE CONTAINER LINES'
+            ],
+            'Address': [
+                '10731 WALKER STREET, CYPRESS, CA 90630, USA'
+            ]
+        }
+
+        self.assertLess(match(data1, data2), 0.4)
