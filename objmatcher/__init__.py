@@ -57,3 +57,25 @@ def square_rooted(x):
 
 
 
+import json
+from collections import OrderedDict
+
+
+class Data(object):
+
+    def __init__(self):
+        self.metadata = OrderedDict()
+
+    def add_meta_data(self, key, value):
+        if key in self.metadata.keys():
+            if  value not in self.metadata[key]:
+                self.metadata[key].append(value)
+        else:
+            self.metadata[key] = [value]
+
+    def to_json(self):
+        return json.loads(json.dumps(self.metadata))
+
+
+class Result(object):
+    pass
