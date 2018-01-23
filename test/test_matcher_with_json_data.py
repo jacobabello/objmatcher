@@ -4,6 +4,15 @@ from objmatcher import Data
 
 
 class TestMatcherWithJsonData(unittest.TestCase):
+    def test_key_not_matching(self):
+        data1 = Data()
+        data1.add_meta_data('names', 'WALMART STORES INC WALMART STORE INC INC')
+        data2 = Data()
+        data2.add_meta_data('names', 'WALMART STORES INC')
+        data2.add_meta_data('addresses', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
+
+        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()), 0.9)
+
     def test_matching_from_data(self):
         data1 = Data()
         data1.add_meta_data('names', 'WALMART STORES INC WALMART STORE INC INC')

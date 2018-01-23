@@ -17,9 +17,10 @@ def match(obj1, obj2):
         word_lists.update({key: [str.split(remove_special_char(x)) for x in value]})
 
     for key, value in obj2.iteritems():
-        for index in range(len(word_lists[key])):
-            for x in range(len(value)):
-                word_lists[key][index] += list(set(str.split(remove_special_char(value[x]))) - set(word_lists[key][index]))
+        if key in word_lists:
+            for index in range(len(word_lists[key])):
+                for x in range(len(value)):
+                    word_lists[key][index] += list(set(str.split(remove_special_char(value[x]))) - set(word_lists[key][index]))
 
     for key in word_lists:
         top_similarity_score = 0.0
@@ -73,6 +74,15 @@ class Data(object):
                 self.metadata[key].append(value)
         else:
             self.metadata[key] = [value]
+
+    def get_all_meta_data(self):
+        return self.metadata.keys()
+
+    def get_meta_data_by_key(self, key):
+        try:
+            return self.metadata[key]
+        except KeyError:
+            raise KeyError()
 
     def to_json(self):
         return json.loads(json.dumps(self.metadata))
