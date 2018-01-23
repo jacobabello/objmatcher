@@ -7,6 +7,7 @@ import re
 
 def match(obj1, obj2):
     def remove_special_char(string):
+        string = str(string)
         return re.sub('[^A-Za-z0-9]+', ' ', string)
 
     word_lists = OrderedDict()

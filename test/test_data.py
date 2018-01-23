@@ -1,5 +1,5 @@
 import unittest
-from objmatcher.data import Data
+from objmatcher import Data
 
 
 class TestData(unittest.TestCase):

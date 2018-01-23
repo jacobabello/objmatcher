@@ -1,8 +1,25 @@
 import unittest
 from objmatcher import match
+from objmatcher import Data
 
 
 class TestMatcherWithJsonData(unittest.TestCase):
+    def test_matching_from_data(self):
+        data1 = Data()
+        data1.add_meta_data('names', 'WALMART STORES INC WALMART STORE INC INC')
+        data1.add_meta_data('names', 'WALMART STORES S A')
+        data1.add_meta_data('names', 'SAMS CLUB WALMART STORES INC')
+        data1.add_meta_data('names', 'WAL MART STORES INC USA')
+        data1.add_meta_data('names', 'WAL MART STORES INC 601 N')
+        data1.add_meta_data('addresses', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
+        data1.add_meta_data('addresses', 'WALTON BLVD, BENTONVILLE, AR 72716, USA')
+
+        data2 = Data()
+        data2.add_meta_data('names', 'WALMART STORES INC')
+        data2.add_meta_data('addresses', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
+
+        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()), 0.9)
+
     def test_high_similarity(self):
         data1 = {
             'Name': [
