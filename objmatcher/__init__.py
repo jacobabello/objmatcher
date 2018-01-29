@@ -1,4 +1,6 @@
 from __future__ import print_function
+
+import json
 from math import*
 from collections import OrderedDict
 import numpy as np
@@ -8,6 +10,7 @@ import re
 def match(obj1, obj2):
     def remove_special_char(string):
         string = str(string)
+        string = str(string.upper())
         return re.sub('[^A-Za-z0-9]+', ' ', string)
 
     word_lists = OrderedDict()
@@ -58,11 +61,6 @@ def square_rooted(x):
     return round(sqrt(sum([a*a for a in x])),3)
 
 
-
-import json
-from collections import OrderedDict
-
-
 class Data(object):
 
     def __init__(self):
@@ -70,7 +68,7 @@ class Data(object):
 
     def add_meta_data(self, key, value):
         if key in self.metadata.keys():
-            if  value not in self.metadata[key]:
+            if value not in self.metadata[key]:
                 self.metadata[key].append(value)
         else:
             self.metadata[key] = [value]
