@@ -3,28 +3,15 @@ from objmatcher import match
 from objmatcher import Data
 
 
-class TestMatcherWithJsonData(unittest.TestCase):
+class TestMatcher(unittest.TestCase):
     def test_case_sensitivity(self):
         data1 = {
            u'names':[
               u'POTATO BARN'
            ],
            u'clean address':[
-              u'17131E WILLIAMS FIELD RD HIGLEY AZ 85236 USA',
-              u'1713 EAST WILLIAMS FIELD HIGLEY AZ 85236 USA',
-              u'3545 EAST WILLIAMS FIELD RD GILBERT AZ 85296 USA',
-              u'4900 SOUTH POWER RD GILBERT AZ 85296 USA',
-              u'4900 SOUTH SPOWER RD GILBERT AZ 85296 USA',
-              u'596 EAST GERMANN RD GILBERT AZ 85297 USA',
-              u'596 GERMANN EAST 102 GILBERT AZ 85297 USA',
-              u'596 GERMANN EAST 102 GILBERT AZ 85233 USA',
-              u'7000 EAST MAYO BLVD PHOENIX AZ 85001 USA',
-              u'4900 SOUTH POWER RD GILBERT AZ 85295 USA',
               u'8980 EAST BAHIA DR SCOTTSDALE AZ 85261 USA',
               u'8980 EAST BAHIA DR SCOTTSDALE AZ 85260 USA',
-              u'596E GERMANN RD GILBERT AZ 85297 USA',
-              u'4900 SOUTH POWER RD MESA AZ 85212 USA',
-              u'596 EAST GERMANN RD GILBERT AZ 85233 USA'
            ]
         }
 
