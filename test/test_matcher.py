@@ -1,9 +1,70 @@
 import unittest
 from objmatcher import match
 from objmatcher import Data
+from objmatcher import MatchResult
 
 
 class TestMatcher(unittest.TestCase):
+    def test_should_return_object_of_matchdata(self):
+        data1 = {
+           u'names':[
+              u'Potato Barn'
+           ]
+        }
+
+        data2 = {
+           u'names':[
+              u'Potato Barn Inc'
+           ]
+        }
+
+        self.assertIsInstance(match(data1, data2),  MatchResult)
+
+    def test_match_data_can_return_keys(self):
+        data1 = {
+           'names':[
+              'POTATO BARN'
+           ],
+           'address':[
+              '8980 EAST BAHIA DR SCOTTSDALE AZ 85261 USA',
+              '8980 EAST BAHIA DR SCOTTSDALE AZ 85260 USA',
+           ]
+        }
+
+        data2 = {
+           'names':[
+              'Potato Barn'
+           ],
+           'address':[
+              '8980 East BAHIA DR, Scottsdale, AZ 85260, USA'
+           ]
+        }
+
+        self.assertEqual(match(data1, data2).get_keys(), ['names', 'address'])
+
+    def test_you_can_get_individual_key_matches(self):
+        data1 = {
+           'names':[
+              'POTATO BARN'
+           ],
+           'address':[
+              '8980 EAST BAHIA DR SCOTTSDALE AZ 85261 USA',
+              '8980 EAST BAHIA DR SCOTTSDALE AZ 85260 USA',
+           ]
+        }
+
+        data2 = {
+           'names':[
+              'Potato Barn'
+           ],
+           'address':[
+              '8980 East BAHIA DR, Scottsdale, AZ 85260, USA'
+           ]
+        }
+
+        self.assertEqual(match(data1, data2).get_score_by_key('names'), 1.0)
+        self.assertEqual(match(data1, data2).get_score_by_key('address'), 1.0)
+
     def test_case_sensitivity(self):
         data1 = {
            u'names':[
@@ -24,7 +85,7 @@ class TestMatcher(unittest.TestCase):
            ]
         }
 
-        self.assertGreaterEqual(match(data1, data2), 0.9)
+        self.assertGreaterEqual(match(data1, data2).get_average_scores(), 0.9)
 
     def test_key_not_matching(self):
         data1 = Data()
@@ -33,7 +94,7 @@ class TestMatcher(unittest.TestCase):
         data2.add_meta_data('names', 'WALMART STORES INC')
         data2.add_meta_data('addresses', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
 
-        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()), 0.9)
+        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()).get_average_scores(), 0.9)
 
     def test_matching_from_data(self):
         data1 = Data()
@@ -49,7 +110,7 @@ class TestMatcher(unittest.TestCase):
         data2.add_meta_data('names', 'WALMART STORES INC')
         data2.add_meta_data('addresses', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
 
-        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()), 0.9)
+        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()).get_average_scores(), 0.9)
 
     def test_high_similarity(self):
         data1 = {
@@ -75,7 +136,7 @@ class TestMatcher(unittest.TestCase):
             ]
         }
 
-        self.assertGreaterEqual(match(data1, data2), 0.9)
+        self.assertGreaterEqual(match(data1, data2).get_average_scores(), 0.9)
 
     def test_remove_special_char(self):
         data1 = {
@@ -97,7 +158,7 @@ class TestMatcher(unittest.TestCase):
             ]
         }
 
-        self.assertEqual(match(data1, data2), 1.0)
+        self.assertEqual(match(data1, data2).get_average_scores(), 1.0)
 
     def test_no_similarity(self):
         data1 = {
@@ -118,4 +179,4 @@ class TestMatcher(unittest.TestCase):
             ]
         }
 
-        self.assertLess(match(data1, data2), 0.4)
+        self.assertLess(match(data1, data2).get_average_scores(), 0.4)

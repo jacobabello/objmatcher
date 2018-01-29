@@ -25,6 +25,8 @@ def match(obj1, obj2):
                 for x in range(len(value)):
                     word_lists[key][index] += list(set(str.split(remove_special_char(value[x]))) - set(word_lists[key][index]))
 
+    match_result = MatchResult()
+
     for key in word_lists:
         top_similarity_score = 0.0
 
@@ -46,9 +48,9 @@ def match(obj1, obj2):
             if similarity > top_similarity_score:
                 top_similarity_score = similarity
 
-        similarity_average_list.append(top_similarity_score)
+        match_result._add_result_by_key(key, top_similarity_score)
 
-    return round(np.mean(similarity_average_list), 3)
+    return match_result
 
 
 def get_similarity(x, y):
@@ -86,5 +88,27 @@ class Data(object):
         return json.loads(json.dumps(self.metadata))
 
 
-class Result(object):
-    pass
+class MatchResult(object):
+
+    def __init__(self):
+        self.results = OrderedDict()
+        self.average_scores = []
+
+    def _add_result_by_key(self, key, result):
+        self.results[key] = result
+        self.average_scores.append(result)
+
+    def get_scores(self):
+        return self.results
+
+    def get_score_by_key(self, key):
+        try:
+            return self.results[key]
+        except KeyError:
+            raise KeyError()
+
+    def get_average_scores(self):
+        return round(np.mean(self.average_scores), 3)
+
+    def get_keys(self):
+        return self.results.keys()
