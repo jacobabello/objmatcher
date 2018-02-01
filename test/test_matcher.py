@@ -105,7 +105,7 @@ class TestMatcher(unittest.TestCase):
         data2.add_meta_data('names', 'WALMART STORES S A')
         data2.add_meta_data('clean address', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
 
-        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()).get_average_scores(), 0.9)
+        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()).get_average_scores(), 0.8)
 
     def test_matching_from_data(self):
         data1 = Data()
