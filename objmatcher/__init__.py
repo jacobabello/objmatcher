@@ -109,8 +109,12 @@ class MatchResult(object):
         except KeyError:
             raise KeyError()
 
-    def get_average_scores(self):
-        return round(np.mean(self.average_scores), 3)
+    def get_average_scores(self, sum=0):
+        for _ in self.average_scores:
+            if _ != 0.0:
+                sum += _
+
+        return round(sum/len(self.average_scores), 3)
 
     def get_keys(self):
         return self.results.keys()
