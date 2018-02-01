@@ -14,16 +14,17 @@ def match(obj1, obj2):
         return re.sub('[^A-Za-z0-9]+', ' ', string)
 
     word_lists = OrderedDict()
-    similarity_average_list = []
 
     for key, value in obj1.iteritems():
-        word_lists.update({key: [str.split(remove_special_char(x)) for x in value]})
+        if key in obj2.keys():
+            word_lists.update({key: [str.split(remove_special_char(x)) for x in value]})
 
     for key, value in obj2.iteritems():
-        if key in word_lists:
-            for index in range(len(word_lists[key])):
-                for x in range(len(value)):
-                    word_lists[key][index] += list(set(str.split(remove_special_char(value[x]))) - set(word_lists[key][index]))
+        if key in obj1.keys():
+            if key in word_lists:
+                for index in range(len(word_lists[key])):
+                    for x in range(len(value)):
+                        word_lists[key][index] += list(set(str.split(remove_special_char(value[x]))) - set(word_lists[key][index]))
 
     match_result = MatchResult()
 
@@ -37,6 +38,7 @@ def match(obj1, obj2):
             for index in range(len(word_lists[key][x])):
                 if word_lists[key][x][index] in str.split(remove_special_char(obj1[key][x])):
                     vector1[index] = 1
+
                 if word_lists[key][x][index] in str.split(remove_special_char(obj2[key][0])):
                     if vector1[index] == 1:
                         vector1[index] = 2

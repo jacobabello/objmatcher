@@ -96,6 +96,17 @@ class TestMatcher(unittest.TestCase):
 
         self.assertGreaterEqual(match(data1.to_json(), data2.to_json()).get_average_scores(), 0.9)
 
+    def test_key_not_matching_2(self):
+        data1 = Data()
+        data1.add_meta_data('names', 'WALMART STORES INC')
+        data1.add_meta_data('address', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
+
+        data2 = Data()
+        data2.add_meta_data('names', 'WALMART STORES S A')
+        data2.add_meta_data('clean address', '601 NORTH WALTON BLVD BENTONVILLE AR 72716 USA')
+
+        self.assertGreaterEqual(match(data1.to_json(), data2.to_json()).get_average_scores(), 0.9)
+
     def test_matching_from_data(self):
         data1 = Data()
         data1.add_meta_data('names', 'WALMART STORES INC WALMART STORE INC INC')
