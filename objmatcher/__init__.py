@@ -8,6 +8,17 @@ import re
 
 
 def match(obj1, obj2):
+    """
+    :type obj1: Data
+    :type obj2: Data
+
+    :rtype: MatchResult
+    """
+    if not isinstance(obj1, Data):
+        raise ArgumentValidationError(1, obj1, Data)
+    if not isinstance(obj2, Data):
+        raise ArgumentValidationError(2, obj1, Data)
+
     def remove_special_char(string):
         string = str(string)
         string = str(string.upper())
@@ -15,12 +26,12 @@ def match(obj1, obj2):
 
     word_lists = OrderedDict()
 
-    for key, value in obj1.iteritems():
-        if key in obj2.keys():
+    for key, value in obj1.to_json().iteritems():
+        if key in obj2.to_json().keys():
             word_lists.update({key: [str.split(remove_special_char(x)) for x in value]})
 
-    for key, value in obj2.iteritems():
-        if key in obj1.keys():
+    for key, value in obj2.to_json().iteritems():
+        if key in obj1.to_json().keys():
             if key in word_lists:
                 for index in range(len(word_lists[key])):
                     for x in range(len(value)):
@@ -118,3 +129,16 @@ class MatchResult(object):
 
     def get_keys(self):
         return self.results.keys()
+
+
+
+class ArgumentValidationError(ValueError):
+    '''
+    Raised when the type of an argument to a function is not what it should be.
+    '''
+
+    def __init__(self, arg_num, func_name, accepted_arg_type):
+        self.error = 'The {0} argument of {1}() is not a {2}'.format(arg_num, func_name, accepted_arg_type)
+
+    def __str__(self):
+        return self.error
