@@ -18,13 +18,11 @@ class Matcher(object):
         """
         self.object1 = object1
         self.object2 = object2
-        self.top_similarity_score = 0.0
+        self.average_score = []
+        self.results = OrderedDict()
 
     def match(self):
         word_lists = OrderedDict()
-
-        print(self.object1.to_json())
-        print(self.object2.to_json())
 
         for key, value in self.object1.to_json().iteritems():
             if key in self.object2.to_json().keys():
@@ -43,9 +41,6 @@ class Matcher(object):
                     vector1 = list(np.zeros(len(word_lists[key][x]), dtype=np.int))
                     vector2 = list(np.zeros(len(word_lists[key][x]), dtype=np.int))
 
-                    print(self.object1.to_json()[key][x])
-                    print(master_word)
-
                     for index in range(len(word_lists[key][x])):
                         if word_lists[key][x][index] in str.split(self.__remove_special_char(self.object1.to_json()[key][x])):
                             vector1[index] = 1
@@ -56,18 +51,22 @@ class Matcher(object):
                             else:
                                 vector2[index] = 1
 
-                    print(vector1)
-                    print(vector2)
+                    similarity = self.__get_similarity(vector1, vector2)
+                    if similarity != 0.0:
+                        self.__add_similarity_score(key, self.object1.to_json()[key][x], similarity)
 
-            print(word_lists[key])
-            print(len(word_lists[key]))
-            print('---------------------------------------')
+    def __add_similarity_score(self, key, word, score):
+        self.average_score.append(score)
+        if key in self.results:
+            self.results[key].append({word: score})
+        else:
+            self.results[key] = [{word: score}]
 
-    def get_scores(self):
-        pass
+    def get_similarity_score(self):
+        return self.results
 
     def get_average_scores(self):
-        pass
+        return round(sum(self.average_score)/len(self.average_score), 3)
 
     @staticmethod
     def __compare(string, word_list):
