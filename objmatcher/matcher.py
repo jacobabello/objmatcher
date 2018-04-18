@@ -52,6 +52,7 @@ class Matcher(object):
                                 vector2[index] = 1
 
                     similarity = self.__get_similarity(vector1, vector2)
+
                     if similarity != 0.0:
                         self.__add_similarity_score(key, self.object1.to_json()[key][x], similarity)
 
@@ -66,6 +67,9 @@ class Matcher(object):
         return self.results
 
     def get_average_scores(self):
+        if len(self.average_score) == 0:
+            return 0.0
+
         return round(sum(self.average_score)/len(self.average_score), 3)
 
     @staticmethod
