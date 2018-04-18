@@ -10,7 +10,7 @@ except ImportError :
 setup(
     name='objmatcher',
     url='https://github.com/jacobabello/objmatcher',
-    version='0.01',
+    version='0.02',
     author='Jacob Abello',
     author_email='abello.jacob@gmail.com',
     description='Match Generated Object and Return Similarity Score',
