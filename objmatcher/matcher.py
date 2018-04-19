@@ -37,8 +37,6 @@ class Matcher(object):
 
         for key in word_lists:
             for x in range(len(word_lists[key])):
-                print(word_lists[key])
-                print(self.object1.to_json()[key][x])
 
                 top_similarity_score = 0.0
 
