@@ -10,8 +10,12 @@ class ObjectMatcher(object):
 
     def match(self, object1, object2):
         """
-        :type object1 Data
-        :type object2 Data
+        :type    object1 Data
+        :type    object2 Data
+        :rtype:  Matcher
         """
 
-        return Matcher(object1, object2).match()
+        matcher = Matcher(object1, object2)
+        matcher.match()
+
+        return matcher
