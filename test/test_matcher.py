@@ -70,9 +70,26 @@ class test_matcher(unittest.TestCase):
         data2 = self.object_matcher.generate_object()
         data2.add_meta_data('name', 'nirvana')
         data2.add_meta_data('song', 'smell like teen spirit')
-        data2.add_meta_data('genre', 'grundge')
+        data2.add_meta_data('genre', 'grunge')
 
         matcher = Matcher(data1, data2)
         matcher.match()
 
-        self.assertGreaterEqual(matcher.get_average_scores(), 0.0)
+        self.assertEqual(matcher.get_average_scores(), 0.0)
+
+    def test_high_match_because_only_one_data_is_matching(self):
+        data1 = self.object_matcher.generate_object()
+        data1.add_meta_data('name', 'foo fighters')
+        data1.add_meta_data('song', 'best of you')
+        data1.add_meta_data('song', 'the pretender')
+        data1.add_meta_data('genre', 'grunge')
+
+        data2 = self.object_matcher.generate_object()
+        data2.add_meta_data('name', 'nirvana')
+        data2.add_meta_data('song', 'smell like teen spirit')
+        data2.add_meta_data('genre', 'grunge')
+
+        matcher = Matcher(data1, data2)
+        matcher.match()
+
+        self.assertLess(matcher.get_average_scores(), 0.3)
