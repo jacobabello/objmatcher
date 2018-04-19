@@ -6,30 +6,29 @@ Using cosine similarity to measure the likeness between two objects.
 
 
 
-#### Data Class
+#### ObjectMatcher Class
  
 ```python
  
-from objmatcher import match, Data
+from objmatcher import ObjectMatcher
 
-data = Data()
+matcher = ObjectMatcher()
+data1 = matcher.generate_object()
+data1.add_meta_data('name', 'foo fighters')
+data1.add_meta_data('song', 'best of you')
+data1.add_meta_data('song', 'the pretender')
+data1.add_meta_data('genre', 'grunge')
+
+data2 = matcher.generate_object()
+data2.add_meta_data('name', 'nirvana')
+data2.add_meta_data('song', 'smell like teen spirit')
+data2.add_meta_data('genre', 'grunge')
+
+matcher.match(data1, data2) ## Returns Matcher Class
 
  ```
 
-Available methods:
-* add_meta_data()
-* get_all_meta_data()
-* get_meta_data_by_key()
-* to_json()
+#### Matcher Class
 
-
-#### MatchResult Class
-
-Returned by __init__ match method
-
-Availble methods:
-
-* get_scores()
-* get_score_by_key()
-* get_average_scores()
-* get_keys()
++ get_similarity_score()
++ get_average_scores()
