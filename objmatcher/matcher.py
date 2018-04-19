@@ -37,6 +37,11 @@ class Matcher(object):
 
         for key in word_lists:
             for x in range(len(word_lists[key])):
+                print(word_lists[key])
+                print(self.object1.to_json()[key][x])
+
+                top_similarity_score = 0.0
+
                 for master_word in self.object2.to_json()[key]:
                     vector1 = list(np.zeros(len(word_lists[key][x]), dtype=np.int))
                     vector2 = list(np.zeros(len(word_lists[key][x]), dtype=np.int))
@@ -52,9 +57,10 @@ class Matcher(object):
                                 vector2[index] = 1
 
                     similarity = self.__get_similarity(vector1, vector2)
+                    if similarity > top_similarity_score:
+                        top_similarity_score = similarity
 
-                    if similarity != 0.0:
-                        self.__add_similarity_score(key, self.object1.to_json()[key][x], similarity)
+                self.__add_similarity_score(key, self.object1.to_json()[key][x], top_similarity_score)
 
     def __add_similarity_score(self, key, word, score):
         self.average_score.append(score)
